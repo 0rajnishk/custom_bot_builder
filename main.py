@@ -1,3 +1,24 @@
+###########################################################################
+###########################################################################
+#    upload all your pdfs ------------------------ [POST]form data--> pdf_files:file
+#    http://127.0.0.1:5000/upload
+
+
+#    ASK questions query prahm--> question: <your question>
+
+# eg.
+# http://127.0.0.1:5000/ask?question=tell me about rajnish
+#
+
+###########################################################################
+###########################################################################
+
+
+
+
+
+
+
 from flask import Flask, request, jsonify
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
