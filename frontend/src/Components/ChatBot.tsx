@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import './styles/Chatinterface.css';
+import { query } from 'firebase/firestore';
 
 interface Message {
   sender: 'user' | 'bot';
@@ -9,37 +10,50 @@ interface Message {
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const ws = useRef<WebSocket | null>(null);
+  const [botName, setBotName] = useState('Configuration'); 
 
-  useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:5000');
+  const sendMessage = async () => {
+    if (input.trim()) {
+      const userMessage: Message = { sender: 'user', text: input };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
 
-    ws.current.onmessage = (event: MessageEvent) => {
-      const message: Message = JSON.parse(event.data);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: 'bot', text: message.text }
-      ]);
-    };
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/query_chatbot/${botName}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ query: input }),
+        });
 
-    return () => {
-      if (ws.current) {
-        ws.current.close();
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const botMessage: Message = { sender: 'bot', text: data.response };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      } catch (error) {
+        console.error('Error fetching response:', error);
+        const errorMessage: Message = { sender: 'bot', text: 'Error fetching response from the server.' };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
       }
-    };
-  }, []);
 
-  const sendMessage = () => {
-    if (input.trim() && ws.current) {
-      const message: Message = { sender: 'user', text: input };
-      setMessages((prevMessages) => [...prevMessages, message]);
-      ws.current.send(JSON.stringify(message));
       setInput('');
     }
   };
 
   return (
     <div className="chat-container">
+      <div className="bot-name-input">
+        <input
+          type="text"
+          value={botName}
+          onChange={(e) => setBotName(e.target.value)}
+          placeholder="Enter bot name..."
+        />
+        <br />
+      </div>
       <div className="messages-container">
         {messages.map((msg, index) => (
           // eslint-disable-next-line react/no-array-index-key

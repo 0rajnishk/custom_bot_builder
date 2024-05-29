@@ -204,60 +204,105 @@ export default function Dashboard() {
                           p: 2,
                           display: 'flex',
                           flexDirection: 'column',
-                          height: 940,
+                          height: 1800,
                         }}
                       >
-                        <Title>How to integrate the bot</Title>
-                        <div>
-                          <h1>Upload PDF and Create Chatbot</h1>
-                          <p>
-                            To upload a PDF and create a chatbot, follow these steps:
-                            <ol>
-                              <li>Create a form with a file input for the PDF and a text input for the chatbot name.</li>
-                              <li>Use the following endpoint to upload the PDF and create the chatbot:
-                                <pre>
-                                  POST /upload
-                                  <br />
-                                  Form Data:
-                                  <br />
-                                  - file: (PDF File)
-                                  <br />
-                                  - chatbot_name: (Chatbot Name)
-                                </pre>
-                              </li>
-                            </ol>
-                          </p>
+                      <div>
+                        <h1>Upload PDF and Create Chatbot</h1>
+                        <p>
+                          To upload a PDF and create a chatbot, follow these steps:
+                          <ol>
+                            <li>Create a form with a file input for the PDF and a text input for the chatbot name.</li>
+                            <li>
+                              Use the following endpoint to upload the PDF and create the chatbot:
+                              <pre>
+                                <code>POST /upload</code><br />
+                                Form Data:<br />
+                                - <code>file: (PDF File)</code><br />
+                                - <code>chatbot_name: (Chatbot Name)</code>
+                              </pre>
+                            </li>
+                          </ol>
+                        </p>
 
-                          <h2>Query Chatbot</h2>
-                          <p>
-                            To query the chatbot, follow these steps:
-                            <ol>
-                              <li>Create a form with a text input for the chatbot name and another text input for your query.</li>
-                              <li>Use the following endpoint to query the chatbot:
-                                <pre>
-                                  POST /query_chatbot/&#123;chatbot_name&#125;
-                                  <br />
-                                  JSON Body:
-                                  <br />
-                                  - query: (Your Query)
-                                </pre>
-                              </li>
-                            </ol>
-                          </p>
+                        <h2>Query Chatbot</h2>
+                        <p>
+                          To query the chatbot, follow these steps:
+                          <ol>
+                            <li>Create a form with a text input for the chatbot name and another text input for your query.</li>
+                            <li>
+                              Use the following endpoint to query the chatbot:
+                              <pre>
+                                <code>POST /query_chatbot/&#123;chatbot_name&#125;</code><br />
+                                JSON Body:<br />
+                                - <code>query: (Your Query)</code>
+                              </pre>
+                            </li>
+                          </ol>
+                        </p>
 
-                          <h2>Get Chatbot Details</h2>
-                          <p>
-                            To get the details of the chatbot, follow these steps:
-                            <ol>
-                              <li>Create a form with a text input for the chatbot name.</li>
-                              <li>Use the following endpoint to get the chatbot details:
-                                <pre>
-                                  GET /get_chatbot/&#123;chatbot_name&#125;
-                                </pre>
-                              </li>
-                            </ol>
-                          </p>
-                        </div>
+                        <h2>Get Chatbot Details</h2>
+                        <p>
+                          To get the details of the chatbot, follow these steps:
+                          <ol>
+                            <li>Create a form with a text input for the chatbot name.</li>
+                            <li>
+                              Use the following endpoint to get the chatbot details:
+                              <pre>
+                                <code>GET /get_chatbot/&#123;chatbot_name&#125;</code>
+                              </pre>
+                            </li>
+                          </ol>
+                        </p>
+
+                        <h2>How to Integrate the Chatbot</h2>
+                        <p>
+                          Integrating your chatbot is as easy as a piece of cake. Follow these simple steps:
+                          <ol>
+                            <li>
+                              Endpoint Details:
+                              <pre>
+                                You will receive an endpoint via email, which will look similar to:<br />
+                                <code>http://localhost:5000/query_chatbot/Configuration</code><br />
+                                This is the endpoint for your chatbot.
+                              </pre>
+                            </li>
+                            <li>
+                              Sending a Query:
+                              <pre>
+                                Use the POST method to send a query to the endpoint.<br />
+                                Your payload should be formatted like this:<br />
+                                <code>{`{
+                    "query": "your question"
+                  }`}</code>
+                              </pre>
+                            </li>
+                            <li>
+                              Example Request:
+                              <pre>
+                                Here is an example of how you can send a query using a typical HTTP client in JavaScript:<br /><br />
+                                <code>{`const endpoint = 'http://localhost:5000/query_chatbot/Configuration';
+
+                  fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query: 'your question' })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log('Response:', data);
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                  });`}</code>
+                              </pre>
+                            </li>
+                          </ol>
+                          That&apos;s it! Now you are ready to integrate and start using your chatbot. If you have any questions or need further assistance, feel free to reach out.
+                        </p>
+                      </div>
                       </Paper>
                     </Grid>
                   </Route>

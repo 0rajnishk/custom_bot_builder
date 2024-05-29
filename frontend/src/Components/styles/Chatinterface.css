@@ -1,65 +1,114 @@
+/* styles/Chatinterface.css */
+
 .chat-container {
     width: 400px;
     max-width: 100%;
     height: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
 }
 
 .messages-container {
     flex: 1;
-    padding: 10px;
+    padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    background: #f9f9f9;
 }
 
 .message {
-    padding: 10px;
+    padding: 10px 15px;
     margin-bottom: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     max-width: 75%;
     word-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .message.user {
     align-self: flex-end;
-    background-color: #e1ffc7;
+    background-color: #007bff;
+    color: white;
+    border-bottom-right-radius: 0;
 }
 
 .message.bot {
     align-self: flex-start;
-    background-color: #f1f1f1;
+    background-color: #e1ffc7;
+    color: #333;
+    border-bottom-left-radius: 0;
 }
 
 .input-container {
     display: flex;
-    border-top: 1px solid #ccc;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
 }
 
 input {
     flex: 1;
-    padding: 10px;
+    padding: 10px 15px;
     border: none;
     outline: none;
     font-size: 16px;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    margin-right: 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 button {
     padding: 10px 20px;
     border: none;
+    border-radius: 20px;
     background-color: #007bff;
     color: white;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
     background-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* New CSS for bot-name-input */
+.bot-name-input {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.bot-name-input input {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 300px;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.bot-name-input input:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
 }
