@@ -5,7 +5,9 @@ from email.mime.text import MIMEText
 import os
 
 smtp_pass = os.getenv("SMTP_PASS")
-alice = Agent(name ="alice",seed="alice recovery phrase",port=8001,
+myagent = Agent(name ="myagent",
+              seed="ahgsuasuishwhwryuqioqbsjqjwoqskxsoxw",
+              port=8001,
               endpoint=["http://127.0.0.1:8001/submit"]
               )
 
@@ -24,26 +26,24 @@ async def query_analysis(msg):
     print(msg.name, msg.email, msg.chatbot_name)
     print('\n'*10)
     send_alert_email("ChatBot ready to explore", msg.email, msg.name, msg.chatbot_name)
-    return msg
+    return "Successfully sent the email"
 
 
-@alice.on_event("startup")
+@myagent.on_event("startup")
 async def say_hello(ctx:Context):
     ctx.logger.info(f'Hello, my adress is {ctx.address}' )
 
-@alice.on_query(model=AgentRequest,replies={AgentResponse})
+@myagent.on_query(model=AgentRequest,replies={AgentResponse})
 async def query_handler(ctx:Context,sender : str, msg :AgentRequest):
     try:
         ctx.logger.info(f'Fetching details of {msg.email}')
-        # nutritions = await query_analysis(msg.recipe_name) 
-        obj = await query_analysis(msg)
-        # email = msg.email
-
-        ctx.logger.info(obj)
-        await ctx.send(sender,message=AgentResponse(message=str("successfully sent the message")))
+        response = await query_analysis(msg)
+        ctx.logger.info(response)
+        await ctx.send(sender,message=AgentResponse(message=response))
     except Exception as E :
-        ctx.logger.info("Error")
-        await ctx.send(sender,message=ErrorMessage(err_msg='Error'))
+        err_msg='Error in sending the email'
+        ctx.logger.info(err_msg)
+        await ctx.send(sender,message=ErrorMessage(err_msg='Error in sending the email'))
 
 
 # ===================================== email =============================================================
@@ -147,5 +147,5 @@ def generate_email(subject, chatbot_name, user_name):
 
 if __name__ == "__main__":
     print("Hello")
-    alice.run()
+    myagent.run()
 
