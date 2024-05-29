@@ -24,7 +24,7 @@ class ErrorMessage(Model):
 
 async def query_analysis(msg):
     print(msg.name, msg.email, msg.chatbot_name)
-    print('\n'*10)
+    print('\n'*5)
     send_alert_email("ChatBot ready to explore", msg.email, msg.name, msg.chatbot_name)
     return "Successfully sent the email"
 

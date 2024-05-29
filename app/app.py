@@ -78,13 +78,7 @@ def generate_embeddings(chatbot_name, pdf_path, email, name):
     embeddings_path = f'embeddings/{chatbot_name}_embeddings.pkl'
     with open(embeddings_path, 'wb') as file:
         pickle.dump((corpus, embeddings), file)
-
-    # send_alert_email(
-    #         "sample subject",
-    #         email,
-    #         name,
-    #         "test message"
-    # )
+    # sending email
     print('\n'*10, "sending email")
     send_email(email, name, chatbot_name)
     os.remove(pdf_path)
@@ -206,7 +200,7 @@ def generate_response(query, context, chatbot_name):
 
 
 
-#  agent ======================
+# ============== agent ======================
 
 def send_email(email, name, chatbot_name):
     response =  asyncio.run(query(destination=agent_address,message=AgentRequest(name=name, email=email, chatbot_name=chatbot_name)))
