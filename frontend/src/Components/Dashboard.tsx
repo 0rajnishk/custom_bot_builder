@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles'
@@ -82,6 +82,14 @@ export default function Dashboard() {
   const [currentUser] = useAuthState(auth)
   const [open, setOpen] = useState(true)
   const toggleDrawer = () => setOpen((prev) => !prev)
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem('email', currentUser.email);
+      localStorage.setItem('name', currentUser.displayName);
+    }
+  }, [currentUser]);
+
 
   return (
     <Router>

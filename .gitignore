@@ -6,3 +6,5 @@ embeddings
 uploads
 /embeddings 
 /uploads
+.env
+.secrets
