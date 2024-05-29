@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from PyPDF2 import PdfReader
@@ -15,12 +16,24 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+
+# ============================================
+from uagents.query import query
+from uagents import Model
+import asyncio
+# ============================================
+
+
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 app.config['UPLOAD_FOLDER'] = './uploads'
 PICKLE_FILE = 'chatbot_details.pkl'
 app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
+
+# ======== agent address ===========
+agent_address = 'agent1qww3ju3h6kfcuqf54gkghvt2pqe8qp97a7nzm2vp8plfxflc0epzcjsv79t'
+
 
 celery_app = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery_app.conf.update(app.config)
@@ -34,6 +47,12 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 smtp_pass = os.getenv("SMTP_PASS")
 openai.api_key = openai_api_key
 
+
+# ============= agent ===========
+class AgentRequest(Model):
+    name: str
+    email: str
+    chatbot_name: str
 
 
 
@@ -59,12 +78,15 @@ def generate_embeddings(chatbot_name, pdf_path, email, name):
     embeddings_path = f'embeddings/{chatbot_name}_embeddings.pkl'
     with open(embeddings_path, 'wb') as file:
         pickle.dump((corpus, embeddings), file)
-    send_alert_email(
-            "sample subject",
-            email,
-            name,
-            "test message"
-    )
+
+    # send_alert_email(
+    #         "sample subject",
+    #         email,
+    #         name,
+    #         "test message"
+    # )
+    print('\n'*10, "sending email")
+    send_email(email, name, chatbot_name)
     os.remove(pdf_path)
 
 def get_pdf_text(pdf_path):
@@ -284,6 +306,18 @@ def generate_email(subject, message, user_name):
 """
     return content
 
+
+
+
+#  agent ======================
+
+def send_email(email, name, chatbot_name):
+    response =  asyncio.run(query(destination=agent_address,message=AgentRequest(name=name, email=email, chatbot_name=chatbot_name)))
+    print("email is working !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", '\n'*10 )
+    return response
+
+
+# ======================================
 if __name__ == '__main__':
     if not os.path.exists('embeddings'):
         os.makedirs('embeddings')
