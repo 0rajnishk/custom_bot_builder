@@ -8,7 +8,7 @@ import openai
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Adjust the model as per your requirement
+model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
 
 @socketio.on('query_chatbot')
 def handle_query_chatbot(data):
