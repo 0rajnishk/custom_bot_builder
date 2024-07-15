@@ -1,6 +1,7 @@
-
-
+![Screenshot 2](https://github.com/0rajnishk/custom_bot_builder/blob/main/screenshots/login-page.png)
+![Screenshot 2](https://github.com/0rajnishk/custom_bot_builder/blob/main/screenshots/dashboard.png)
 ![Screenshot 2](https://github.com/0rajnishk/custom_bot_builder/blob/main/screenshots/chat-bot.png)
+![Screenshot 2](https://github.com/0rajnishk/custom_bot_builder/blob/main/screenshots/integration.png)
 
 # Custom Bot Builder Project
 
