@@ -1,3 +1,7 @@
+
+
+![Screenshot 2](https://github.com/0rajnishk/custom_bot_builder/blob/main/screenshots/chat-bot.png)
+
 # Custom Bot Builder Project
 
 This project is designed to create custom chatbots that users can tailor to specific domains, topics, and constraints. Users provide data, define topics that the bot should address, and specify areas the bot should avoid. The project utilizes Sentence Transformers for embedding and similarity search, along with NemoGuardrails to ensure responses remain within specified domains and prevent abuse of the language model.
